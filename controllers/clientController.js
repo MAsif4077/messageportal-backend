@@ -1,6 +1,7 @@
 const Client = require('../models/client');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); 
+const client = require('../models/client');
 
 exports.createSuperAdmin = async (req, res) => {
     const { name, email, number, address, password } = req.body;
@@ -98,11 +99,11 @@ console.log("super admin",superAdmin)
 
 
 exports.createClient = async (req, res) => {
-    const { name, email, number, address, parentClient, role } = req.body;
+    const { name, email, number, address, clientId, role } = req.body;
     console.log("Bodey........",req.body)
 
     try {
-        if (role === 'SubClient' && !parentClient) {
+        if (role === 'subClient' && !clientId) {
             return res.status(400).json({
                 status: 400,
                 success: false,
@@ -110,7 +111,7 @@ exports.createClient = async (req, res) => {
             });
         }
 
-        if (role === 'SuperAdmin') {
+        if (role === 'superAdmin') {
             return res.status(400).json({
                 status: 400,
                 success: false,
@@ -123,11 +124,11 @@ exports.createClient = async (req, res) => {
             email,
             number,
             address,
-            role: role || 'Client'
+            role: role || 'client'
         };
 
-        if (role === 'SubClient') {
-            clientData.parentClient = parentClient;
+        if (role === 'subClient') {
+            clientData.clientId = clientId;
         }
 
         const client = await Client.create(clientData);
@@ -152,15 +153,21 @@ exports.createClient = async (req, res) => {
 
 exports.getAllClients = async (req, res) => {
     try {
-        const clients = await Client.find();
+        const cl = await Client.find({}).populate('clientId');
 
-        if (!clients.length) {
+        if (!cl.length) {
             return res.status(404).json({
                 status: 404,
                 success: false,
                 message: 'No Clients Found'
             });
         }
+
+        const clients = cl.map(client => ({
+            ...client.toObject(),
+            clientName: client.clientId?.name,
+            clientEmail: client.clientId?.email
+        }));
 
         const users = {
             all: clients,
@@ -182,6 +189,7 @@ exports.getAllClients = async (req, res) => {
         });
     }
 };
+
 
 
 exports.updateClient = async (req, res) => {

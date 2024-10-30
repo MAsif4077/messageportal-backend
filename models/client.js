@@ -10,7 +10,7 @@ const clientSchema = new mongoose.Schema({
     rateCard: { type: mongoose.Schema.Types.ObjectId, ref: 'RateCard' },
     isBlocked: { type: Boolean, default: false },
     active: { type: Boolean, default: true },
-    parentClient: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', default: null },
+    clientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', default: null },
     role: { type: String, enum: ['superAdmin', 'client', 'subClient'], default: 'client' },
     password: { type: String}
 });

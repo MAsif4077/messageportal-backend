@@ -4,13 +4,17 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./config/database');
+const morgan=require("morgan")
 
 dotenv.config();
 const app = express();
 connectDB();
 
 app.use(cors());
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+
 app.use(bodyParser.json());
+
 
 const clientRoutes = require('./routes/clientRoutes');
 const rateCardRoutes = require('./routes/rateCardRoutes');

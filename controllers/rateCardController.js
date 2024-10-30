@@ -94,7 +94,7 @@ exports.updateRateCard = async (req, res) => {
     }
 };
 
-exports.deleteRateCard = async (req, res) => {
+exports. deleteRateCard = async (req, res) => {
     try {
         const rateCard = await RateCard.findByIdAndDelete(req.params.id);
         if (!rateCard) {
