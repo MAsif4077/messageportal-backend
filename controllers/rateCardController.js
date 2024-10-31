@@ -68,8 +68,7 @@ exports.getRateCardById = async (req, res) => {
 };
 
 exports.updateRateCard = async (req, res) => {
-    console.log("body",req.body);
-    console.log("params",req.params)
+
     try {
         const rateCard = await RateCard.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!rateCard) {

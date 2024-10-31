@@ -42,7 +42,6 @@ exports.superAdminLogin = async (req, res) => {
     let { email, password } = req.body;
     email = email.toLowerCase();
     password = password.trim();
-    console.log("body",req.body)
    
     try {
         if (!email || !password) {
@@ -54,7 +53,6 @@ exports.superAdminLogin = async (req, res) => {
         }
 
         const superAdmin = await Client.findOne({ email: email, role: 'superAdmin' });
-console.log("super admin",superAdmin)
         if (!superAdmin) {
             return res.status(404).json({
                 status: 404,
@@ -100,7 +98,6 @@ console.log("super admin",superAdmin)
 
 exports.createClient = async (req, res) => {
     const { name, email, number, address, clientId, role } = req.body;
-    console.log("Bodey........",req.body)
 
     try {
         if (role === 'subClient' && !clientId) {
@@ -193,8 +190,7 @@ exports.getAllClients = async (req, res) => {
 
 
 exports.updateClient = async (req, res) => {
-    console.log("body",req.body)
-    console.log("req id",req.params.id)
+  
     try {
         const client = await Client.findByIdAndUpdate(req.params.id, req.body, { new: true });
         console.log("Cllllllll",client)

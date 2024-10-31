@@ -44,7 +44,6 @@ exports.getNumbersByClientId = async (req, res) => {
 };
 
 exports.getAllNumbers = async (req, res) => {
-    console.log("huuuuuuuuuuuuuuuu");
     try {
         const num = await Number.find().populate('clientId');
 
@@ -80,7 +79,6 @@ exports.getAllNumbers = async (req, res) => {
 
 
 exports.updateNumber = async (req, res) => {
-    console.log("body",req.body,"params",req.params.id)
     try {
         const updatedNumber = await Number.findByIdAndUpdate(req.params.id, req.body, { new: true });
         if (!updatedNumber) {
